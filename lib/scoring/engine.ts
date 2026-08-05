@@ -212,6 +212,7 @@ export function buildCard(s: Signals): Card {
     languageLogo,
     ...(founder ? { founder } : null),
     hiddenActivity: s.hidden_activity,
+    ...(s.years ? { years: s.years } : null),
     legacy: { L },
     report: {
       skillMoves: skill.value,

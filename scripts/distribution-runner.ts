@@ -258,6 +258,7 @@ async function fetchPayload(login: string): Promise<RawPayload | null> {
       recentActiveDays === 0 &&
       lifetimeContributions === 0 &&
       hasRecentRepoActivity,
+    years: [], // per-year breakdown feeds awards, not scoring — the runner only scores
   };
 }
 

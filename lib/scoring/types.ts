@@ -33,6 +33,32 @@ export interface Signals {
   // See RawPayload.hiddenActivity (lib/github/client.ts) — GitHub's all-zero
   // signature for an account with contribution activity hidden from viewers.
   hidden_activity: boolean;
+  // Per-year history, oldest first. Optional: hand-authored sample Signals and
+  // previously serialized data predate it.
+  years?: YearBreakdown[];
+}
+
+// One calendar year of real contribution activity (from GitHub's per-year
+// contributionsCollection windows). The substrate for yearly awards: fetched
+// years may be missing (a window that failed its retry is omitted, not zeroed).
+export interface YearBreakdown {
+  year: number;
+  commits: number;
+  prs: number;
+  reviews: number;
+  issues: number;
+  restricted: number; // private contributions (count only)
+}
+
+export type AwardKey = "ballon_dor" | "wc_golden_ball" | "golden_boot" | "world_cup";
+
+// One earned trophy (see lib/awards for the rules). BdO instances carry the
+// year; Golden Balls the edition; the reason is shown in the details modal.
+export interface AwardInstance {
+  key: AwardKey;
+  year?: number;
+  edition?: string;
+  reason: string;
 }
 
 export type WorkRateLevel = "High" | "Med" | "Low";
@@ -109,5 +135,11 @@ export interface Card {
   // Signals.hidden_activity) — optional so previously serialized cards
   // (localStorage, Redis cache) without it still parse as valid.
   hiddenActivity?: boolean;
+  // Per-year history behind the yearly awards (Ballon d'Or etc.). Optional so
+  // cached/serialized cards from before the awards system stay valid.
+  years?: YearBreakdown[];
+  // The trophy cabinet, computed at scout time (lib/awards via lib/scout).
+  // Optional for the same serialization reason.
+  awards?: AwardInstance[];
   report: Report;
 }

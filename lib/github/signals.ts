@@ -63,5 +63,6 @@ export function signalsFromPayload(p: RawPayload, now = Date.now()): Signals {
     recent_commits: p.recentCommits + p.recentRestricted,
     recent_spike,
     hidden_activity: p.hiddenActivity,
+    years: p.years,
   };
 }
